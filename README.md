@@ -8,7 +8,7 @@ Prediction model for non-coding RNA
 4. Pickle
 5. Joblib
 
-##Training 
+## Training 
         ./miRNA_prediction.py
         
 Make sure that training data set is present in the working directory as "training_all.tsv"
