@@ -11,7 +11,7 @@ from sklearn import preprocessing
 abvr = {'L':'lncRNA', 'M':'miRNA', 'R':'rRNA', 'SNO':'snoRNA', 'T':'tRNA', 'SN':'snRNA', 'P':'premiRNA'}
 
 #clf = joblib.load('NCodR.pkl') #old version
-clf = joblib.load(open('NCodR_py3_poly.pkl',"rb"))
+clf = joblib.load(open('NCodR_py3_rbf.pkl',"rb"))
 
 fn = argv[1]
 f= open(fn).readlines()
@@ -24,19 +24,7 @@ for ele in range(1, len(f)):
 	arr = []
 	line = f[ele].rstrip().split('\t')
 	seqid.append(line[0])
-	'''
-	for each in range(1, len(ele)):
-		arr.append(float(ele[each]))
-	array.append(arr)
-	'''
-'''
-def fxn():
-	warnings.warn("deprecated", DeprecationWarning)
-	
-with warnings.catch_warnings():
-	warnings.filterwarnings("ignore", category=DeprecationWarning)
-	fxn()
-'''
+
 if __name__ == "__main__":        
 	X = np.genfromtxt(fn, delimiter='\t', dtype=None)
 	

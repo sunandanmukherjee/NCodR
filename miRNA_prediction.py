@@ -48,33 +48,38 @@ def main():
 	array = np.asarray(array, dtype = None)
 	X = array[1:,1:-1]
 	y = array[1:,-1]
+	ids = array[1:,0]
+	results=[]
 	
 	labels = ['lncRNA', 'miRNA', 'rRNA', 'snoRNA', 'tRNA', 'snRNA', 'premiRNA']
 
-	x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+	x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.05, random_state=42)
 
 	scaler = preprocessing.StandardScaler()
 	x_train = scaler.fit_transform(x_train)
 	x_test = scaler.fit_transform(x_test)
 	
-	#param_grid = {"C": np.logspace(-2, 5, 8), "kernel": ["poly"]}
-	param_grid = {'C': [0.01, 0.1, 1, 10, 100, 1000], 'gamma': [1,0.1,0.01,0.001,0.0001], 'kernel': ['rbf']}
+	param_grid = {"C": np.logspace(-2, 5, 8), 'gamma': [1,0.1,0.01,0.001,0.0001], 'kernel': ['rbf']}
+	#param_grid = {"C": np.logspace(-1, 3, 2), 'gamma': [0.01,0.001], 'kernel': ['rbf']}
+	#param_grid = {'C': [0.01, 0.1, 1, 10, 100, 1000], 'gamma': [1,0.1,0.01,0.001,0.0001], 'kernel': ['rbf']}
 	#cv = StratifiedKFold(y_train, n_folds=2) #old version
-	skf = StratifiedKFold(n_splits=2, random_state=1, shuffle=True)
-	clf = svm.SVC()
+	skf = StratifiedKFold(n_splits=4, random_state=1, shuffle=True)
+	#clf = svm.SVC()
 	grid = GridSearchCV(clf, param_grid=param_grid, cv=skf, refit=True, verbose=3, n_jobs=3)
 	grid.fit(x_train, y_train)
+	print ("Best parameters = ")
+	print(grid.best_params_)
 	#clf.fit(x_train, y_train)
 	
 	joblib.dump(grid, open('NCodR2_py3_rbf.pkl', 'wb'))
 	
-	#y_pred = grid.predict(x_test)
-	#clf1 = joblib.load('NCodR.pkl')
 	y_pred = grid.predict(x_test)
+	#clf1 = joblib.load('NCodR.pkl')
+	#y_pred = clf.predict(x_test)
+
 	cm = metrics.confusion_matrix(y_test, y_pred)
 	print(np.sum(y_pred == y_test) / float(len(y_pred)))
-	#cm_norm = pd.crosstab(y_test, y_pred, rownames=['True'], colnames=['Predicted'], margins = True)
-	#print(cm_norm)
+
 	np.set_printoptions(precision=2)
 	print('Confusion matrix, without normalization')
 	print(cm)
@@ -87,7 +92,7 @@ def main():
 	plt.figure()
 	plot_confusion_matrix(cm_normalized, labels, title='Normalized confusion matrix')
 
-	plt.show()
+	#plt.show()
 	
 	
 if __name__ =="__main__":
