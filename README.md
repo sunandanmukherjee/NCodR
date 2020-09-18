@@ -7,6 +7,8 @@ Prediction model for non-coding RNA
 3. Scikit learn
 4. Pickle
 5. Joblib
+6. Argparse
+7. matplotlib
 
 ## Training 
         ./miRNA_prediction.py

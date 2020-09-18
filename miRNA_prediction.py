@@ -1,9 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import numpy as np
 import matplotlib.pyplot as plt
 #import pandas as pd
 import pickle
+import argparse
+import os, sys
 
 from sklearn import svm, metrics, preprocessing, feature_selection
 from sklearn.pipeline import Pipeline
@@ -14,6 +16,20 @@ from sklearn.model_selection import StratifiedKFold, train_test_split
 #from sklearn.externals import joblib //old version
 import joblib
 
+parser = argparse.ArgumentParser(prog='miRNA_prediction.py', usage='%(prog)s [options]')
+parser.add_argument("-i", "--input", required=True, dest="input_file", type=str,
+                    help="Input file name [required].")
+parser.add_argument("-n", "--no-of-jobs", required=False, dest="number_of_jobs", default=3, type=int,
+                        help="Number of jobs [default = 3].")
+args = parser.parse_args()
+input_file = args.input_file
+number_of_jobs = args.number_of_jobs
+
+#checking the input file
+if input_file != "":
+    if(os.path.isfile(input_file) == False): #checking input_file
+        print ("input location/file: "+input_file+" provided by the user doesn't exist", file=sys.stderr)
+        sys.exit(1)
 
 def plot_confusion_matrix(cm, labels, title='Confusion matrix', cmap=plt.cm.Blues):
     plt.imshow(cm, interpolation='nearest', cmap=cmap)
@@ -43,7 +59,7 @@ def read_tsv(fn):
         return array
 
 def main():
-	array = np.genfromtxt("training_all.tsv", delimiter='\t', dtype=None)
+	array = np.genfromtxt(input_file, delimiter='\t', dtype=None, encoding=None)
 	#array = read_tsv("training_all.tsv")
 	array = np.asarray(array, dtype = None)
 	X = array[1:,1:-1]
@@ -65,7 +81,7 @@ def main():
 	#cv = StratifiedKFold(y_train, n_folds=2) #old version
 	skf = StratifiedKFold(n_splits=4, random_state=1, shuffle=True)
 	clf = svm.SVC()
-	grid = GridSearchCV(clf, param_grid=param_grid, cv=skf, refit=True, verbose=3, n_jobs=3)
+	grid = GridSearchCV(clf, param_grid=param_grid, cv=skf, refit=True, verbose=3, n_jobs=number_of_jobs)
 	grid.fit(x_train, y_train)
 	print ("Best parameters = ")
 	print(grid.best_params_)
