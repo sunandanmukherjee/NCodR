@@ -64,7 +64,7 @@ def main():
 	#param_grid = {'C': [0.01, 0.1, 1, 10, 100, 1000], 'gamma': [1,0.1,0.01,0.001,0.0001], 'kernel': ['rbf']}
 	#cv = StratifiedKFold(y_train, n_folds=2) #old version
 	skf = StratifiedKFold(n_splits=4, random_state=1, shuffle=True)
-	#clf = svm.SVC()
+	clf = svm.SVC()
 	grid = GridSearchCV(clf, param_grid=param_grid, cv=skf, refit=True, verbose=3, n_jobs=3)
 	grid.fit(x_train, y_train)
 	print ("Best parameters = ")
