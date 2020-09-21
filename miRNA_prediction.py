@@ -42,7 +42,7 @@ def plot_confusion_matrix(cm, labels, title='Confusion matrix', cmap=plt.cm.Blue
     plt.ylabel('True label', fontname="times new roman", fontsize=14)
     plt.xlabel('Predicted label', fontname="times new roman", fontsize=14)
     plt.savefig('norm2_cm_poly.png', dpi=600, format='png')
-    plt.show()
+    #plt.show()
     
 def read_tsv(fn):
         f= open(fn).readlines()
@@ -73,7 +73,7 @@ def main():
 
 	scaler = preprocessing.StandardScaler()
 	x_train = scaler.fit_transform(x_train)
-	x_test = scaler.fit_transform(x_test)
+	x_test = scaler.transform(x_test)
 	
 	param_grid = {"C": np.logspace(-2, 5, 8), 'gamma': [1,0.1,0.01,0.001,0.0001], 'kernel': ['rbf']}
 	#param_grid = {"C": np.logspace(-1, 3, 2), 'gamma': [0.01,0.001], 'kernel': ['rbf']}
