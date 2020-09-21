@@ -36,7 +36,7 @@ if __name__ == "__main__":
 	#print(array)
 
 	scaler = preprocessing.StandardScaler()
-	params = scaler.fit_transform(array)
+	params = scaler.transform(array)
 
 	pred = clf.predict(params)
 	result.append(pred)
