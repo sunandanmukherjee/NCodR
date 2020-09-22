@@ -97,7 +97,7 @@ def plot_confusion_matrix(cm, labels, title, cmap=plt.cm.Blues):
     #plt.show()
 
 def main():
-    array = np.genfromtxt("All_ncRNAs.tsv", delimiter='\t', dtype=None)
+    array = np.genfromtxt(input_file, delimiter='\t', dtype=None)
     array = np.asarray(array, dtype = None)
 
     X = array[1:,1:-1]
