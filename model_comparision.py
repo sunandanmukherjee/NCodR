@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,6 +6,9 @@ from matplotlib.colors import ListedColormap
 import pandas as pd
 import pickle
 import math
+
+import argparse
+import os, sys
 
 from sklearn import metrics, preprocessing, feature_selection
 from sklearn.pipeline import Pipeline
@@ -25,6 +28,17 @@ from sklearn.metrics import classification_report, roc_auc_score
 names = ["k-Nearest Neighbors", "Linear SVM",
          "Decision Tree", "Random Forest", "Neural Net", "AdaBoost",
          "Naive Bayes", "QDA"]
+
+parser = argparse.ArgumentParser(prog='model_comparison.py', usage='%(prog)s [options]')
+parser.add_argument("-i", "--input", required=True, dest="input_file", type=str,
+                    help="Input file name [required].")
+args = parser.parse_args()
+input_file = args.input_file
+#checking the input file
+if input_file != "":
+    if(os.path.isfile(input_file) == False): #checking input_file
+        print ("input location/file: "+input_file+" provided by the user doesn't exist", file=sys.stderr)
+        sys.exit(1)
 '''
 names = ["Nearest Neighbors", "Linear SVM"]
 '''
