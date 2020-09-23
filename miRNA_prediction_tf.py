@@ -13,9 +13,12 @@ parser.add_argument("-i", "--input", required=True, dest="input_file", type=str,
 					help="Input file name [required].")
 parser.add_argument("-m", "--model", required=True, dest="model_path", type=str,
 					help="Model prefix or path [required].")
+parser.add_argument("-n", "--no-of-epochs", required=False, dest="number_of_epochs", default=2, type=int,
+                    help="Number of epochs [default = 2].")
 args = parser.parse_args()
 input_file = args.input_file
 model_path = args.model_path
+number_of_epochs = args.number_of_epochs
 
 
 
@@ -79,7 +82,7 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(
 
 
 model.fit(train_dataset, 
-		  epochs=15,
+		  epochs=number_of_epochs,
 		  callbacks=[cp_callback])
 
 #model.save_weights('training_1/trial1')
