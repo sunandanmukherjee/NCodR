@@ -71,7 +71,7 @@ def get_compiled_model():
 	return model
 
 model = get_compiled_model()
-checkpoint_path = model_path+"{epoch:04d}.ckpt"
+checkpoint_path = model_path+"/{epoch:04d}.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
 cp_callback = tf.keras.callbacks.ModelCheckpoint(
