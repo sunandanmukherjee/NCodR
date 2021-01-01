@@ -103,7 +103,7 @@ make
 For a fasta file named fastafile.fa the first step is to convert it to single line format using fasta1line.pl. The RNAfold program is run to generate the secondary structure file in dot-bracket format (.b). 
 
 ```
-fasta1line.pl fastafile.fa fastafile_1l.fa
+makeFasta1line.py fastafile.fa fastafile_1l.fa
 RNAfold -d2 --noLP --noPS <fastafile_1l.fa >fastafile_1l.b
 calc_AU_MFEI fastafile_1l.b
 ```
